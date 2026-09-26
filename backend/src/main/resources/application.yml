@@ -1,0 +1,28 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  application:
+    name: leaf-boss-backend
+  profiles:
+    active: dev
+  mail:
+    from-name: LEAF-BOSS
+  jackson:
+    default-property-inclusion: non_null
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  cache:
+    type: none
+
+server:
+  port: 8081
+
+app:
+  jwt:
+    secret: bGVhZi1ib3NzLXNlY3JldC1rZXktZm9yLWp3dC10b2tlbi1nZW5lcmF0aW9uLXBsZWFzZS1jaGFuZ2U=
+    expiration: 7200000      # token 有效期 2 小时（滑动窗口）
+    renew-threshold: 1800000  # 签发超过 30 分钟则续期
+    max-age: 604800000        # 绝对上限 7 天，超过必须重新登录
+  cors:
+    allowed-origins: http://localhost:8080,chrome-extension://*
