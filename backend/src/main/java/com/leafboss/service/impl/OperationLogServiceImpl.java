@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.leafboss.entity.OperationLog;
 import com.leafboss.mapper.OperationLogMapper;
 import com.leafboss.service.OperationLogService;
+import com.leafboss.utils.IpRegionUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
         operationLog.setOperationType(operationType);
         operationLog.setDescription(description);
         operationLog.setIpAddress(ipAddress);
+        operationLog.setIpRegion(IpRegionUtil.getCityInfo(ipAddress));
         operationLog.setCreatedAt(LocalDateTime.now());
         
         this.save(operationLog);

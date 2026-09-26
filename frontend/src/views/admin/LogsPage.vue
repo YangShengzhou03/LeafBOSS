@@ -37,7 +37,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="description" label="操作内容" min-width="200" show-overflow-tooltip />
-          <el-table-column prop="ipAddress" label="IP地址" width="160" align="center" :show-overflow-tooltip="true" />
+          <el-table-column prop="ipAddress" label="IP地址" width="220" align="center" :show-overflow-tooltip="true">
+            <template #default="{ row }">
+              {{ formatIpWithRegion(row.ipAddress, row.ipRegion) }}
+            </template>
+          </el-table-column>
           <el-table-column prop="createdAt" label="操作时间" width="180" align="center">
             <template #default="{ row }">
               {{ formatDateTime(row.createdAt) || '-' }}
@@ -66,7 +70,7 @@
               {{ getOperationTypeName(selectedLog.operationType) }}
             </el-tag>
           </el-descriptions-item>
-          <el-descriptions-item label="IP地址">{{ selectedLog.ipAddress }}</el-descriptions-item>
+          <el-descriptions-item label="IP地址">{{ formatIpWithRegion(selectedLog.ipAddress, selectedLog.ipRegion) }}</el-descriptions-item>
           <el-descriptions-item label="操作时间">{{ formatDateTime(selectedLog.createdAt) || '-' }}</el-descriptions-item>
           <el-descriptions-item label="操作内容" :span="isMobile ? 1 : 2">{{ selectedLog.description }}</el-descriptions-item>
         </el-descriptions>
@@ -187,6 +191,12 @@ const handleCurrentChange = (page) => {
 const viewLogDetail = (log) => {
   selectedLog.value = log
   showLogDetail.value = true
+}
+
+const formatIpWithRegion = (ip, region) => {
+  if (!ip) return '-'
+  if (!region) return ip
+  return `${ip}（${region}）`
 }
 
 const clearLogs = async () => {

@@ -38,7 +38,8 @@ public class UserProductController {
             return Result.error("未登录");
         }
         Page<UserProduct> pageParam = new Page<>(1, 100);
-        return Result.success(userProductService.getUserProductListWithDetails(pageParam, null, null, userId).getRecords());
+        // 只返回已授权（status=1）的商品
+        return Result.success(userProductService.getUserProductListWithDetails(pageParam, null, 1, userId).getRecords());
     }
 
     @PostMapping

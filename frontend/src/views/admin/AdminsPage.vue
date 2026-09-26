@@ -49,7 +49,7 @@
               {{ formatDateTime(scope.row.createdAt) || '-' }}
             </template>
           </el-table-column>
-          <el-table-column prop="registerIp" label="注册IP" width="200" align="center"
+          <el-table-column prop="registerIp" label="注册IP" width="260" align="center"
             :show-overflow-tooltip="true">
             <template #default="scope">
               {{ formatIpWithRegion(scope.row.registerIp, scope.row.registerRegion) }}
@@ -61,7 +61,7 @@
               {{ formatDateTime(scope.row.lastLoginTime) || '-' }}
             </template>
           </el-table-column>
-          <el-table-column prop="lastLoginIp" label="最后登录IP" width="200" align="center"
+          <el-table-column prop="lastLoginIp" label="最后登录IP" width="260" align="center"
             :show-overflow-tooltip="true">
             <template #default="scope">
               {{ formatIpWithRegion(scope.row.lastLoginIp, scope.row.lastLoginRegion) }}

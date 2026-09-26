@@ -10,6 +10,7 @@ public class SpecificationDTO {
     private String name;
     private Double price;
     private Integer stockQuantity;
+    private Integer validDays;
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -68,6 +69,14 @@ public class SpecificationDTO {
 
     public void setStockQuantity(Integer stockQuantity) {
         this.stockQuantity = stockQuantity;
+    }
+
+    public Integer getValidDays() {
+        return validDays;
+    }
+
+    public void setValidDays(Integer validDays) {
+        this.validDays = validDays;
     }
 
     public String getStatus() {

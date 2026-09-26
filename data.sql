@@ -79,6 +79,7 @@ CREATE TABLE operation_logs (
     operation_type VARCHAR(30) NOT NULL COMMENT '操作类型',
     description TEXT COMMENT '详细描述',
     ip_address VARCHAR(50) COMMENT '操作者IP地址',
+    ip_region VARCHAR(100) COMMENT 'IP归属地（省份城市）',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '记录时间',
     INDEX idx_operation_type (operation_type),
     INDEX idx_created_at (created_at)

@@ -18,6 +18,9 @@ public class OperationLog {
     @TableField("ip_address")
     private String ipAddress;
 
+    @TableField("ip_region")
+    private String ipRegion;
+
     @TableField("created_at")
     private LocalDateTime createdAt;
 
@@ -51,6 +54,14 @@ public class OperationLog {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public String getIpRegion() {
+        return ipRegion;
+    }
+
+    public void setIpRegion(String ipRegion) {
+        this.ipRegion = ipRegion;
     }
 
     public LocalDateTime getCreatedAt() {
