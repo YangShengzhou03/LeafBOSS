@@ -1,0 +1,57 @@
+{
+  "name": "leaf-boss-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "个人全栈技术学习",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "axios": "1.6.0",
+    "echarts": "^6.0.0",
+    "element-plus": "^2.14.3",
+    "vue": "3.4.0",
+    "vue-echarts": "^8.0.1",
+    "vue-router": "4.2.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@babel/core": "7.23.0",
+    "@babel/eslint-parser": "7.23.3",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-plugin-eslint": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
+    "compression-webpack-plugin": "^11.1.0",
+    "eslint": "8.52.0",
+    "eslint-plugin-vue": "9.18.0",
+    "sass": "1.69.0",
+    "sass-loader": "13.3.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser",
+      "requireConfigFile": false
+    },
+    "rules": {
+      "vue/multi-word-component-names": "off"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}
