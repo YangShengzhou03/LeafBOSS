@@ -27,8 +27,8 @@
           <el-table-column label="投票" width="140" align="center">
             <template #default="scope">
               <span class="vote-cell">
-                <span class="like">👍 {{ scope.row.likeCount || 0 }}</span>
-                <span class="dislike">👎 {{ scope.row.dislikeCount || 0 }}</span>
+                <span class="like">点赞 {{ scope.row.likeCount || 0 }}</span>
+                <span class="dislike">踩 {{ scope.row.dislikeCount || 0 }}</span>
               </span>
             </template>
           </el-table-column>

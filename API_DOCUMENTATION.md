@@ -234,7 +234,7 @@
 
 ## 11. 公司评论 `/api/v1/company-reviews`（app 客户端专用，需登录）
 
-> ⚠️ **外部客户端依赖 — 不可删除**
+> **注意: 外部客户端依赖 -- 不可删除**
 > 以下四个接口由外部项目 `D:\code\js\jobs_helper\extension`（浏览器插件）调用，并非死代码。清理死代码时请勿移除本节任何接口及其对应的 Controller、Service、Entity、Mapper。
 > - `GET /api/v1/company-reviews` — 获取评论列表（支持 `company_name`/`page`/`size`）
 > - `POST /api/v1/company-reviews` — 发布评论

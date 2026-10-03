@@ -25,10 +25,10 @@
           <template #default="{ row }">
             <div class="vote-cell">
               <el-button link :type="row.myVote === 'like' ? 'primary' : ''" @click="handleVote(row, 'like')">
-                👍 {{ row.likeCount || 0 }}
+                点赞 {{ row.likeCount || 0 }}
               </el-button>
               <el-button link :type="row.myVote === 'dislike' ? 'danger' : ''" @click="handleVote(row, 'dislike')">
-                👎 {{ row.dislikeCount || 0 }}
+                踩 {{ row.dislikeCount || 0 }}
               </el-button>
             </div>
           </template>
