@@ -1,4 +1,4 @@
--- 数据库初始化脚本（最终形态，卡密评论已迁移至 Token 鉴权）
+-- 数据库初始化脚本
 DROP DATABASE IF EXISTS leaf_boss;
 CREATE DATABASE leaf_boss CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE leaf_boss;

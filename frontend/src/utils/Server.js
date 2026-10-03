@@ -119,7 +119,7 @@ function handleTokenExpiration(showMessage = true, message = '登录已过期，
 }
 
 const http = {
-  get: (url, params = {}) => Server.get(url, { params }),
+  get: (url, params = {}, config = {}) => Server.get(url, { params, ...config }),
   post: (url, data = {}, config = {}) => Server.post(url, data, config),
   put: (url, data = {}, config = {}) => Server.put(url, data, config),
   delete: (url, params = {}) => Server.delete(url, { params })

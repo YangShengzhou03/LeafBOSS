@@ -2,6 +2,7 @@ package com.leafboss.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,6 +26,12 @@ public class GlobalExceptionHandler {
         return Result.error(400, e.getMessage());
     }
 
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public Result<Object> handleMissingParameter(MissingServletRequestParameterException e, HttpServletRequest request) {
+        log.warn("请求URL: {} 缺少必填参数: {}", request.getRequestURL(), e.getParameterName());
+        return Result.error(400, "缺少必填参数: " + e.getParameterName());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<Object> handleValidation(MethodArgumentNotValidException e, HttpServletRequest request) {
         String msg = e.getBindingResult().getFieldErrors().stream()
@@ -38,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public Result<Object> handleRuntimeException(RuntimeException e, HttpServletRequest request) {
         log.error("请求URL: {} 运行时异常", request.getRequestURL(), e);
-        return Result.error(e.getMessage());
+        return Result.serverError();
     }
 
     @ExceptionHandler(Exception.class)

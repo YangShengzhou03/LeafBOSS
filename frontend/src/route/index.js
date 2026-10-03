@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '@/utils/store.js';
 import * as utils from '@/utils/utils.js';
+import api from '@/services/api';
 
 const routes = [
   {
@@ -87,6 +88,16 @@ const routes = [
         meta: {
           title: 'LEAF-BOSS - 个人资料',
           requiresAuth: true
+        }
+      },
+      {
+        path: 'company-reviews',
+        name: 'UserCompanyReviews',
+        component: () => import('@/views/user/CompanyReviews.vue'),
+        meta: {
+          title: 'LEAF-BOSS - 公司评论',
+          requiresAuth: true,
+          requiresBossProduct: true
         }
       }
     ]
@@ -225,6 +236,15 @@ const routes = [
           requiresAdmin: true
         }
       },
+      {
+        path: 'jobs/comments',
+        name: 'CommentManagement',
+        component: () => import('@/views/admin/jobs/CommentManagement.vue'),
+        meta: {
+          title: 'LEAF-BOSS - 评论管理',
+          requiresAdmin: true
+        }
+      },
 
       {
         path: 'notices',
@@ -321,6 +341,21 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta.requiresAdmin && !store.state.isAdmin) {
       next('/user');
       return;
+    }
+
+    if (to.meta.requiresBossProduct) {
+      try {
+        const res = await api.user.userGetMyProducts()
+        const products = res?.data || []
+        const hasBoss = products.some(p => p.productName === 'BOSS')
+        if (!hasBoss) {
+          next('/user')
+          return
+        }
+      } catch {
+        next('/user')
+        return
+      }
     }
   }
 

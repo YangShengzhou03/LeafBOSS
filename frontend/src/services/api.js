@@ -250,6 +250,39 @@ const AdminService = {
 
   deleteFeedback(id) {
     return Server.delete(`/api/feedbacks/${id}`)
+  },
+
+  // 管理员评论管理
+  getAdminReviewList(params) {
+    return Server.get('/api/admin/reviews', {
+      page: params.page || 1,
+      size: params.size || 10,
+      company_name: params.companyName || null
+    })
+  },
+
+  deleteAdminReview(id) {
+    return Server.delete(`/api/admin/reviews/${id}`)
+  },
+
+  // 导出全部评论（返回 blob）
+  exportAdminReviews(companyName) {
+    return Server.get('/api/admin/reviews/export', { company_name: companyName || null }, { responseType: 'blob' })
+      .then(res => {
+        // Blob 响应无 code 字段，拦截器返回完整 axios response，取 data 即 Blob
+        const blob = res instanceof Blob ? res : res.data
+        if (!(blob instanceof Blob)) throw new Error('导出失败')
+        return blob
+      })
+  },
+
+  // 导入评论（上传 xlsx 文件）
+  importAdminReviews(file) {
+    const formData = new FormData()
+    formData.append('file', file)
+    return Server.post('/api/admin/reviews/import', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
   }
 }
 
@@ -362,6 +395,27 @@ const UserService = {
 
   updateUserInfo(data) {
     return Server.put('/api/auth/me', data)
+  },
+
+  // 公司评论（用户端）
+  getCompanyReviews(params) {
+    return Server.get('/api/v1/company-reviews', {
+      company_name: params.companyName,
+      page: params.page || 1,
+      size: params.size || 10
+    })
+  },
+
+  createCompanyReview(data) {
+    return Server.post('/api/v1/company-reviews', data)
+  },
+
+  deleteCompanyReview(id) {
+    return Server.delete(`/api/v1/company-reviews/${id}`)
+  },
+
+  voteCompanyReview(id, vote) {
+    return Server.post(`/api/v1/company-reviews/${id}/vote`, { vote })
   }
 }
 

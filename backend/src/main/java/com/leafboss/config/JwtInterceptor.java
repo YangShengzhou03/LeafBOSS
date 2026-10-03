@@ -157,6 +157,10 @@ public class JwtInterceptor implements HandlerInterceptor {
             // 其余 card-keys 端点均限 admin
             return true;
         }
+        // 通知管理接口仅管理员可操作（含 GET，需在 GET 早退之前判断）
+        if (uri.startsWith("/api/notices")) {
+            return true;
+        }
         // 商品/规格/公司的写操作（GET 为公开查询）
         if ("GET".equals(method) || "OPTIONS".equals(method)) {
             return false;
@@ -166,8 +170,8 @@ public class JwtInterceptor implements HandlerInterceptor {
             uri.startsWith("/api/companies")) {
             return true;
         }
-        // 通知管理接口仅管理员可操作
-        if (uri.startsWith("/api/notices")) {
+        // 商品反馈管理仅管理员可操作（查看/删除）
+        if (uri.startsWith("/api/feedbacks")) {
             return true;
         }
         return false;

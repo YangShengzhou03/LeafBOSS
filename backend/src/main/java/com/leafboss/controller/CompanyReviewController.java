@@ -25,12 +25,12 @@ public class CompanyReviewController {
     private CompanyReviewService companyReviewService;
 
     /**
-     * 分页获取公司评论
+     * 分页获取公司评论，company_name 为可选过滤（不传则返回全部）
      * GET /api/v1/company-reviews?company_name=...&page=1&size=10
      */
     @GetMapping
     public Result<Map<String, Object>> list(
-            @RequestParam("company_name") String companyName,
+            @RequestParam(value = "company_name", required = false) String companyName,
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             HttpServletRequest request) {

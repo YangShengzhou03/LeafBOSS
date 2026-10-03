@@ -44,6 +44,28 @@ public interface CompanyReviewService {
      */
     VoteResult vote(Integer commentId, String vote, String userId);
 
+    /**
+     * 管理员分页获取全部评论
+     * @param page 页码
+     * @param size 每页条数
+     * @param companyName 公司名称（可选，为空则查全部）
+     * @return 分页结果
+     */
+    Page<BossReview> listAllForAdmin(int page, int size, String companyName);
+
+    /**
+     * 管理员删除任意评论
+     * @param commentId 评论ID
+     * @return 是否成功
+     */
+    boolean deleteReviewAsAdmin(Integer commentId);
+
+    /**
+     * 管理员直接插入评论（绕过频率限制）
+     * @param review 评论实体（需包含 companyId, content, userId）
+     */
+    void createReviewForAdmin(BossReview review);
+
     class VoteResult {
         public int likeCount;
         public int dislikeCount;

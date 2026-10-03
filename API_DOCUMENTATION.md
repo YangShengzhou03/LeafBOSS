@@ -13,8 +13,8 @@
 ## 认证规则
 
 鉴权流程（`JwtInterceptor` + `CorsConfig`）：
-1. `CorsConfig` 排除的路径直接放行（`/api/auth/login` `/api/auth/register` `/api/user-auth/login` `/api/user-auth/register` `/api/public/**` `/api/admins/send-reset-code` `/api/admins/reset-password`）
-2. 其余路径进入拦截器，`isPublicPath` 白名单放行
+1. `CorsConfig` 拦截器排除的路径直接放行（`/api/auth/login` `/api/auth/register` `/api/user-auth/login` `/api/user-auth/register` `/api/public/**` `/api/admins/send-reset-code` `/api/admins/reset-password`）
+2. 其余路径进入拦截器，`isPublicPath` 白名单放行（POST `/api/user-auth/send-reset-code` `/api/user-auth/send-register-code` `/api/user-auth/reset-password`）
 3. 非白名单路径要求携带有效 Token（`currentUserId` 非空）
 4. `isUserAccessiblePath` 允许任何登录用户访问
 5. `isAdminOnlyPath` 要求 `admin` 角色
@@ -45,9 +45,9 @@
 | `/api/user-products/*` 其余端点 | 需 admin Token |
 | `/api/operation-logs/*` | 需 admin Token |
 | `/api/admin/*` | 需 admin Token |
-| `/api/notices`、`/api/notices/{id}` | 需 admin Token |
+| `/api/notices`、`/api/notices/{id}` | 需 admin Token（GET 也需要） |
 | `/api/public/notices` | 公开 |
-| `/api/feedbacks/*` | 需登录 |
+| `/api/feedbacks/*` | 需 admin Token |
 
 ---
 
@@ -243,7 +243,7 @@
 
 | 方法 | URL | 认证 | 说明 |
 |------|-----|------|------|
-| GET    | `/api/v1/company-reviews?company_name=&page=&size=` | 登录 | 按公司名分页查评论 |
+| GET    | `/api/v1/company-reviews?company_name=&page=&size=` | 登录 | 分页查评论，`company_name` 为可选过滤（不传或为空返回全部评论） |
 | POST   | `/api/v1/company-reviews` | 登录 | 发布评论 |
 | DELETE | `/api/v1/company-reviews/{id}` | 登录 | 删除评论（仅评论者本人） |
 | POST   | `/api/v1/company-reviews/{id}/vote` | 登录 | 点赞/点踩（一用户一票，重复取消，改票切换） |
@@ -388,7 +388,7 @@
 
 ---
 
-## 15. 商品反馈 `/api/feedbacks`（需登录）
+## 15. 商品反馈 `/api/feedbacks`（需 admin Token）
 
 | 方法 | URL | 说明 |
 |------|-----|------|

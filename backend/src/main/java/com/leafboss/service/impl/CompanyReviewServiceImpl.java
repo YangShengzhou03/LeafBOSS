@@ -84,6 +84,29 @@ public class CompanyReviewServiceImpl implements CompanyReviewService {
     }
 
     @Override
+    public Page<BossReview> listAllForAdmin(int page, int size, String companyName) {
+        Page<BossReview> pageObj = new Page<>(page, Math.min(size, 50));
+        return reviewMapper.selectPageForAdmin(pageObj, companyName);
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteReviewAsAdmin(Integer commentId) {
+        BossReview existing = reviewMapper.selectById(commentId);
+        if (existing == null) {
+            return false;
+        }
+        reviewMapper.deleteById(commentId);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public void createReviewForAdmin(BossReview review) {
+        reviewMapper.insert(review);
+    }
+
+    @Override
     @Transactional
     public VoteResult vote(Integer commentId, String vote, String userId) {
         BossReview review = reviewMapper.selectById(commentId);

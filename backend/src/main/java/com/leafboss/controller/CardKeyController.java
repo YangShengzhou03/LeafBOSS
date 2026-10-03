@@ -324,6 +324,7 @@ public class CardKeyController {
         return updated ? Result.success("已恢复") : Result.error("操作失败");
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @DeleteMapping("/agent/by-card-key/{cardKey}")
     public Result agentDeleteCardKey(@PathVariable String cardKey, HttpServletRequest request) {
         String currentUserId = (String) request.getAttribute("currentUserId");

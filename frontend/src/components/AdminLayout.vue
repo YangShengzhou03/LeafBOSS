@@ -95,7 +95,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { User, UserFilled, ArrowDown, Monitor, Document, Key, Goods, List, Operation, Check, Plus, OfficeBuilding, Menu, Stamp, Bell } from '@element-plus/icons-vue'
+import { User, UserFilled, ArrowDown, Monitor, Document, Key, Goods, List, Operation, Check, Plus, OfficeBuilding, Menu, Stamp, Bell, ChatDotRound } from '@element-plus/icons-vue'
 import store from '@/utils/store.js'
 import { useIsMobile } from '@/composables/useIsMobile.js'
 
@@ -140,7 +140,11 @@ const menuItems = [
     ]
   },
   {
-    index: '/admin/jobs/companies', icon: OfficeBuilding, title: '海投操作'
+    index: 'jobs-management', icon: OfficeBuilding, title: '海投操作',
+    children: [
+      { index: '/admin/jobs/companies', icon: OfficeBuilding, title: '公司管理' },
+      { index: '/admin/jobs/comments', icon: ChatDotRound, title: '评论管理' }
+    ]
   },
   {
     index: 'product-operations', icon: Operation, title: '商品运营',

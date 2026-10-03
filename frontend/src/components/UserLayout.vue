@@ -36,15 +36,17 @@
 
       <div class="admin-container">
         <aside class="admin-sidebar" v-if="!isMobile">
-          <el-menu :default-active="activeMenu" class="admin-menu" router unique-opened
-            background-color="#ffffff" text-color="#061b31" active-text-color="#533afd">
+          <el-menu :default-active="activeMenu" class="admin-menu" unique-opened
+            background-color="#ffffff" text-color="#061b31" active-text-color="#533afd"
+            @select="handleMenuSelect">
             <template v-for="item in menuItems" :key="item.index">
               <el-sub-menu v-if="item.children" :index="item.index">
                 <template #title>
                   <el-icon><component :is="item.icon" /></el-icon>
                   <span>{{ item.title }}</span>
                 </template>
-                <el-menu-item v-for="child in item.children" :key="child.index" :index="child.index">
+                <el-menu-item v-for="child in item.children" :key="child.index" :index="child.index"
+                  @click="handleMenuItemClick(child.index)">
                   <el-icon><component :is="child.icon" /></el-icon>
                   <template #title>{{ child.title }}</template>
                 </el-menu-item>
@@ -62,8 +64,9 @@
           <div class="drawer-header">
             <h2 class="drawer-logo">LEAF-BOSS</h2>
           </div>
-          <el-menu :default-active="activeMenu" class="admin-menu" router unique-opened @select="showDrawer = false"
-            background-color="#ffffff" text-color="#061b31" active-text-color="#533afd">
+          <el-menu :default-active="activeMenu" class="admin-menu" unique-opened
+            background-color="#ffffff" text-color="#061b31" active-text-color="#533afd"
+            @select="handleMobileMenuSelect">
             <template v-for="item in menuItems" :key="item.index">
               <el-sub-menu v-if="item.children" :index="item.index">
                 <template #title>
@@ -96,18 +99,20 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { User, ArrowDown, Menu, HomeFilled, List, Check, Key, SwitchButton, Lock, ShoppingCart } from '@element-plus/icons-vue'
+import { User, ArrowDown, Menu, HomeFilled, List, Check, Key, SwitchButton, Lock, ShoppingCart, ChatDotRound, OfficeBuilding } from '@element-plus/icons-vue'
 import store from '@/utils/store.js'
 import { useIsMobile } from '@/composables/useIsMobile.js'
+import api from '@/services/api'
 
 const router = useRouter()
 const route = useRoute()
 
 const isMobile = useIsMobile()
 const showDrawer = ref(false)
+const hasBossProduct = ref(false)
 
 watch(isMobile, (mobile) => {
   if (!mobile) {
@@ -118,6 +123,17 @@ watch(isMobile, (mobile) => {
 const activeMenu = computed(() => route.path)
 
 const isAgent = computed(() => store.state.user?.role === 'agent')
+
+onMounted(async () => {
+  try {
+    const res = await api.user.userGetMyProducts()
+    const products = res?.data || []
+    hasBossProduct.value = products.some(p => (p.productName || '').toLowerCase().includes('boss'))
+  } catch (e) {
+    console.error('[UserLayout] Failed to load products:', e)
+    hasBossProduct.value = false
+  }
+})
 
 const menuItems = computed(() => {
   const items = [
@@ -135,6 +151,14 @@ const menuItems = computed(() => {
     items.push({ index: '/user/agent-authorizations', icon: Lock, title: '授权列表' })
   }
   items.push({ index: '/user/card-redeem', icon: ShoppingCart, title: '商品兑换' })
+  if (hasBossProduct.value) {
+    items.push({
+      index: 'jobs-helper', icon: OfficeBuilding, title: '海投助手',
+      children: [
+        { index: '/user/company-reviews', icon: ChatDotRound, title: '公司评论' }
+      ]
+    })
+  }
   return items
 })
 
@@ -149,6 +173,31 @@ const watermarkText = computed(() => {
   }
   return 'LEAF-BOSS'
 })
+
+const handleMenuItemClick = (index) => {
+  if (index && index !== route.path) {
+    router.push(index).catch(err => {
+      console.error('[UserLayout] Navigation error:', err)
+    })
+  }
+}
+
+const handleMenuSelect = (index) => {
+  if (index && index !== route.path) {
+    router.push(index).catch(err => {
+      console.error('[UserLayout] Navigation error:', err)
+    })
+  }
+}
+
+const handleMobileMenuSelect = (index) => {
+  showDrawer.value = false
+  if (index && index !== route.path) {
+    router.push(index).catch(err => {
+      console.error('[UserLayout] Navigation error:', err)
+    })
+  }
+}
 
 const handleCommand = async (command) => {
   try {
