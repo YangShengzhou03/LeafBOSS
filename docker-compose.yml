@@ -14,7 +14,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   backend:
-    image: yangshengzhou/leafboss:backend-v1
+    image: crpi-kczczesrmgxok6ke.cn-hangzhou.personal.cr.aliyuncs.com/leafboss/backend:backend-v1
     container_name: leafboss-backend
     restart: always
     networks:
@@ -30,7 +30,7 @@ services:
       SMTP_PASSWORD: ${SMTP_PASSWORD}
 
   frontend:
-    image: yangshengzhou/leafboss:frontend-v1
+    image: crpi-kczczesrmgxok6ke.cn-hangzhou.personal.cr.aliyuncs.com/leafboss/frontend:frontend-v1
     container_name: leafboss-frontend
     restart: always
     networks:

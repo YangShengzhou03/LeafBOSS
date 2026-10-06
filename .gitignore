@@ -82,3 +82,4 @@ logs/
 https-nginx/*.key
 
 .trae/
+cron‌/
