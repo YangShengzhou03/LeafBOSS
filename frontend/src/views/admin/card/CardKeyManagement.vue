@@ -180,8 +180,7 @@ const loadCardKeys = async () => {
           : '未设置',
         userEmail: cardKey.userEmail || '',
         activateTime: cardKey.activateTime ? formatDateTime(cardKey.activateTime) : '',
-        createTime: cardKey.createdAt ? formatDateTime(cardKey.createdAt) : '',
-        updatedAt: cardKey.updatedAt ? formatDateTime(cardKey.updatedAt) : ''
+        createTime: cardKey.createdAt ? formatDateTime(cardKey.createdAt) : ''
       }))
 
       cardKeys.value = newCardKeys

@@ -129,8 +129,7 @@ onMounted(async () => {
     const res = await api.user.userGetMyProducts()
     const products = res?.data || []
     hasBossProduct.value = products.some(p => (p.productName || '').toLowerCase().includes('boss'))
-  } catch (e) {
-    console.error('[UserLayout] Failed to load products:', e)
+  } catch {
     hasBossProduct.value = false
   }
 })
@@ -176,26 +175,20 @@ const watermarkText = computed(() => {
 
 const handleMenuItemClick = (index) => {
   if (index && index !== route.path) {
-    router.push(index).catch(err => {
-      console.error('[UserLayout] Navigation error:', err)
-    })
+    router.push(index).catch(() => {})
   }
 }
 
 const handleMenuSelect = (index) => {
   if (index && index !== route.path) {
-    router.push(index).catch(err => {
-      console.error('[UserLayout] Navigation error:', err)
-    })
+    router.push(index).catch(() => {})
   }
 }
 
 const handleMobileMenuSelect = (index) => {
   showDrawer.value = false
   if (index && index !== route.path) {
-    router.push(index).catch(err => {
-      console.error('[UserLayout] Navigation error:', err)
-    })
+    router.push(index).catch(() => {})
   }
 }
 

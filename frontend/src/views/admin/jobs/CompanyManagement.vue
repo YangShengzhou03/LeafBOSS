@@ -248,6 +248,15 @@ const resetForm = () => {
 }
 
 const handleDeleteCompany = async (row) => {
+  try {
+    await ElMessageBox.confirm('确定删除该公司？', '确认删除', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+  } catch {
+    return
+  }
   const response = await api.admin.deleteCompany(row.id)
   if (response && response.code === 200) {
     ElMessage.success('删除成功')
