@@ -21,6 +21,23 @@ const AdminService = {
     return Server.get('/api/admin/stats')
   },
 
+  getTodaySalesDistribution() {
+    return Server.get('/api/admin/today-sales-distribution')
+  },
+
+  getDailyRevenueTrend(params) {
+    return Server.get('/api/admin/daily-revenue-trend', { days: params?.days || 30 })
+  },
+
+  getUserList(params) {
+    return Server.get('/api/admins', {
+      page: params.page || 1,
+      size: params.size || 10,
+      keyword: params.keyword,
+      status: params.status
+    })
+  },
+
   getLogList(params) {
     const queryParams = {
       page: params.page || 1,
@@ -57,6 +74,10 @@ const AdminService = {
 
   deleteCardKey(cardKey) {
     return Server.delete(`/api/card-keys/by-card-key/${cardKey}`)
+  },
+
+  toggleCardKeyStatus(cardKey, status) {
+    return Server.post('/api/card-keys/status', { cardKey, status })
   },
 
   getProductList(params) {
@@ -256,6 +277,14 @@ const AdminService = {
     return Server.post('/api/admin/reviews/import', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
+  },
+
+  verifyCardKey(cardKey) {
+    return Server.post('/api/card-keys/verify', { cardKey })
+  },
+
+  getAgents() {
+    return Server.get('/api/card-keys/agents')
   }
 }
 
@@ -290,6 +319,10 @@ const UserService = {
 
   userResetPassword(data) {
     return Server.post('/api/user-auth/reset-password', data)
+  },
+
+  sendEmailChangeCode(email) {
+    return Server.post('/api/user-auth/send-email-change-code', { email })
   },
 
   getCurrentUser() {
@@ -333,6 +366,34 @@ const UserService = {
 
   userGetMyProducts() {
     return Server.get('/api/user-products/user/me')
+  },
+
+  getAuthorizedProducts() {
+    return Server.get('/api/agent-authorizations/products')
+  },
+
+  getPublicNotices(productName) {
+    return Server.get('/api/public/notices', { productName })
+  },
+
+  createUser(data) {
+    return Server.post('/api/admins', data)
+  },
+
+  deleteUser(id) {
+    return Server.delete(`/api/admins/${id}`)
+  },
+
+  updateUser(id, data) {
+    return Server.put(`/api/admins/${id}`, data)
+  },
+
+  adminResetPassword(data) {
+    return Server.post('/api/admins/admin-reset-password', data)
+  },
+
+  updateUserInfo(data) {
+    return Server.put('/api/auth/me', data)
   },
 
   createCustomerUser(data) {
