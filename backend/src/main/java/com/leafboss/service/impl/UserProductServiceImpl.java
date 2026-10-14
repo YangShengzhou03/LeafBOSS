@@ -48,6 +48,11 @@ public class UserProductServiceImpl extends ServiceImpl<UserProductMapper, UserP
 
     @Override
     public IPage<UserProductDTO> getUserProductListWithDetails(Page<UserProduct> pageParam, String keyword, Integer status, String userId) {
+        return getUserProductListWithDetails(pageParam, keyword, status, userId, null);
+    }
+
+    @Override
+    public IPage<UserProductDTO> getUserProductListWithDetails(Page<UserProduct> pageParam, String keyword, Integer status, String userId, Integer specId) {
         QueryWrapper<UserProduct> wrapper = new QueryWrapper<>();
 
         if (userId != null) {
@@ -56,6 +61,10 @@ public class UserProductServiceImpl extends ServiceImpl<UserProductMapper, UserP
 
         if (status != null) {
             wrapper.eq("status", status);
+        }
+
+        if (specId != null) {
+            wrapper.eq("spec_id", specId);
         }
 
         if (keyword != null && !keyword.trim().isEmpty()) {

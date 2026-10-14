@@ -42,7 +42,7 @@ public class AuthController {
             return Result.error("密码不能为空");
         }
 
-        Admin admin = adminService.findByEmail(email);
+        Admin admin = adminService.findByEmail(email.trim().toLowerCase());
         if (admin != null) {
             if ("inactive".equals(admin.getStatus())) {
                 logUtil.logLogin(false, "管理员登录失败 - 邮箱: " + email + " (账号已被禁用)", request);
@@ -108,11 +108,12 @@ public class AuthController {
             admin.setUsername(username.trim());
         }
         if (email != null && !email.trim().isEmpty()) {
-            Admin existing = adminService.findByEmail(email.trim());
+            String newEmail = email.trim().toLowerCase();
+            Admin existing = adminService.findByEmail(newEmail);
             if (existing != null && !existing.getId().equals(userId)) {
                 return Result.error("邮箱已存在");
             }
-            admin.setEmail(email.trim());
+            admin.setEmail(newEmail);
         }
 
         boolean updated = adminService.updateById(admin);
@@ -128,6 +129,8 @@ public class AuthController {
         if (admin.getEmail() == null || admin.getEmail().trim().isEmpty()) {
             return Result.error("邮箱不能为空");
         }
+        // 邮箱统一小写存储，避免大小写重复注册
+        admin.setEmail(admin.getEmail().trim().toLowerCase());
         if (adminService.findByEmail(admin.getEmail()) != null) {
             return Result.error("邮箱已存在");
         }

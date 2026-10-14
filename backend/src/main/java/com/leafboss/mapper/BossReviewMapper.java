@@ -53,9 +53,11 @@ public interface BossReviewMapper extends BaseMapper<BossReview> {
      * 数据量上 50w+ 改为先查 company_id 子查询再按 id 过滤。
      */
     @Select("<script>" +
-            "SELECT br.*, c.name as company_name, NULL AS myVote " +
+            "SELECT br.*, c.name as company_name, NULL AS myVote, " +
+            "  u.username as username, u.email as email " +
             "FROM boss_reviews br " +
             "JOIN companies c ON br.company_id = c.id " +
+            "LEFT JOIN users u ON br.user_id = u.id " +
             "WHERE br.is_deleted = 0 " +
             "<if test=\"companyName != null and companyName != ''\">" +
             "  AND c.name LIKE CONCAT('%', #{companyName}, '%') " +

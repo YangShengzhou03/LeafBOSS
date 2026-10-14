@@ -40,6 +40,14 @@ public class BossReview {
     @TableField(exist = false)
     private String companyName;
 
+    /** 非 DB 列：评论用户名 */
+    @TableField(exist = false)
+    private String username;
+
+    /** 非 DB 列：评论用户邮箱 */
+    @TableField(exist = false)
+    private String email;
+
     /** 非 DB 列：当前登录用户是否有权限删除此评论 */
     @TableField(exist = false)
     private Boolean canDelete;
@@ -130,5 +138,21 @@ public class BossReview {
 
     public void setCanDelete(Boolean canDelete) {
         this.canDelete = canDelete;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

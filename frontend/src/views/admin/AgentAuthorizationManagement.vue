@@ -29,9 +29,14 @@
 
       <div class="table-container">
         <el-table :data="authList" v-loading="loading" stripe>
-          <el-table-column label="代理商" min-width="180" :show-overflow-tooltip="true">
+          <el-table-column label="代理商" min-width="140" :show-overflow-tooltip="true">
             <template #default="{ row }">
               <div>{{ row.agentName || '-' }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="邮箱" min-width="180" :show-overflow-tooltip="true">
+            <template #default="{ row }">
+              <div>{{ row.agentEmail || '-' }}</div>
             </template>
           </el-table-column>
           <el-table-column label="商品" min-width="140" :show-overflow-tooltip="true">

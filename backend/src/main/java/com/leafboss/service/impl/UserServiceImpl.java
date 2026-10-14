@@ -21,7 +21,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User findByEmail(String email) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("email", email);
+        queryWrapper.eq("email", email == null ? null : email.toLowerCase());
         return this.getOne(queryWrapper);
     }
 

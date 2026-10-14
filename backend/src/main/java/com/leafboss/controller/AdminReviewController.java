@@ -110,7 +110,7 @@ public class AdminReviewController {
 
         // 表头
         Row headerRow = sheet.createRow(0);
-        String[] headers = {"ID", "公司", "评论内容", "用户ID", "点赞数", "踩数", "评论时间"};
+        String[] headers = {"ID", "公司", "评论内容", "用户ID", "用户名", "邮箱", "点赞数", "踩数", "评论时间"};
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
@@ -125,9 +125,11 @@ public class AdminReviewController {
             row.createCell(1).setCellValue(r.getCompanyName() != null ? r.getCompanyName() : "");
             row.createCell(2).setCellValue(r.getContent() != null ? r.getContent() : "");
             row.createCell(3).setCellValue(r.getUserId() != null ? r.getUserId() : "");
-            row.createCell(4).setCellValue(r.getLikeCount() != null ? r.getLikeCount() : 0);
-            row.createCell(5).setCellValue(r.getDislikeCount() != null ? r.getDislikeCount() : 0);
-            row.createCell(6).setCellValue(r.getCreatedAt() != null ? r.getCreatedAt().toString() : "");
+            row.createCell(4).setCellValue(r.getUsername() != null ? r.getUsername() : "");
+            row.createCell(5).setCellValue(r.getEmail() != null ? r.getEmail() : "");
+            row.createCell(6).setCellValue(r.getLikeCount() != null ? r.getLikeCount() : 0);
+            row.createCell(7).setCellValue(r.getDislikeCount() != null ? r.getDislikeCount() : 0);
+            row.createCell(8).setCellValue(r.getCreatedAt() != null ? r.getCreatedAt().toString() : "");
         }
 
         // 自动列宽

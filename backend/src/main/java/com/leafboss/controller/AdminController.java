@@ -41,6 +41,9 @@ public class AdminController {
 
     @PostMapping
     public Result<Boolean> createAdmin(@RequestBody Admin admin, HttpServletRequest request) {
+        if (admin.getEmail() != null) {
+            admin.setEmail(admin.getEmail().trim().toLowerCase());
+        }
         if (adminService.findByEmail(admin.getEmail()) != null) {
             return Result.error("邮箱已存在");
         }
@@ -79,6 +82,10 @@ public class AdminController {
         String verificationCode = resetRequest.get("verificationCode");
         String newPassword = resetRequest.get("newPassword");
 
+        if (email != null) {
+            email = email.trim().toLowerCase();
+        }
+
         if (verificationCode == null || verificationCode.trim().isEmpty()) {
             return Result.error("请输入验证码");
         }
@@ -94,6 +101,10 @@ public class AdminController {
     public Result<Boolean> adminResetPassword(@RequestBody Map<String, String> resetRequest, HttpServletRequest request) {
         String email = resetRequest.get("email");
         String newPassword = resetRequest.get("newPassword");
+
+        if (email != null) {
+            email = email.trim().toLowerCase();
+        }
 
         // 需要操作者自己的密码验证，防止任意管理员重置他人密码
         String operatorPassword = resetRequest.get("operatorPassword");
@@ -137,6 +148,7 @@ public class AdminController {
         if (email == null || email.trim().isEmpty()) {
             return Result.error("邮箱不能为空");
         }
+        email = email.trim().toLowerCase();
 
         Admin admin = adminService.findByEmail(email);
         if (admin == null) {
@@ -204,7 +216,7 @@ public class AdminController {
                 existingAdmin.setUsername(adminData.getUsername());
             }
             if (adminData.getEmail() != null) {
-                existingAdmin.setEmail(adminData.getEmail());
+                existingAdmin.setEmail(adminData.getEmail().trim().toLowerCase());
             }
             if (adminData.getStatus() != null) {
                 existingAdmin.setStatus(adminData.getStatus());

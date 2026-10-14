@@ -21,7 +21,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public Admin findByEmail(String email) {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("email", email);
+        queryWrapper.eq("email", email == null ? null : email.toLowerCase());
         return this.getOne(queryWrapper);
     }
 

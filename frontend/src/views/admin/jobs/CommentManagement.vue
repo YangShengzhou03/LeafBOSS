@@ -24,6 +24,8 @@
           <el-table-column prop="companyName" label="公司" min-width="160" :show-overflow-tooltip="true" />
           <el-table-column prop="content" label="评论内容" min-width="300" :show-overflow-tooltip="true" />
           <el-table-column prop="userId" label="用户ID" min-width="180" :show-overflow-tooltip="true" />
+          <el-table-column prop="username" label="用户名" min-width="120" :show-overflow-tooltip="true" />
+          <el-table-column prop="email" label="邮箱" min-width="180" :show-overflow-tooltip="true" />
           <el-table-column label="投票" width="140" align="center">
             <template #default="scope">
               <span class="vote-cell">

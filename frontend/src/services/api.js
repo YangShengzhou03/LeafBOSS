@@ -63,7 +63,8 @@ const AdminService = {
       size: params.size || 10,
       keyword: params.keyword,
       specId: params.specId,
-      status: params.status
+      status: params.status,
+      agentId: params.agentId
     })
   },
 
@@ -204,7 +205,8 @@ const AdminService = {
       page: params.page || 1,
       size: params.size || 10,
       keyword: params.keyword,
-      status: params.status
+      status: params.status,
+      specId: params.specId
     })
   },
 
@@ -357,7 +359,8 @@ const UserService = {
       size: params.size || 10,
       keyword: params.keyword,
       specId: params.specId,
-      status: params.status
+      status: params.status,
+      agentId: params.agentId
     })
   },
 

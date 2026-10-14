@@ -14,20 +14,21 @@
               </template>
             </el-input>
           </el-col>
-          <el-col :xs="24" :sm="6" :md="4" class="mb-10">
-            <el-select v-model="statusFilter" placeholder="授权状态" clearable @change="handleSearch" style="width: 100%">
-              <el-option label="全部" value="" />
-              <el-option label="已授权" value="1" />
-              <el-option label="已过期" value="expired" />
-              <el-option label="已吊销" value="0" />
+          <el-col :xs="24" :sm="6" :md="3" class="mb-10">
+            <el-select v-model="specFilter" placeholder="规格" clearable filterable @change="handleSearch" style="width: 100%" size="default">
+              <el-option label="全部" :value="null" />
+              <el-option v-for="spec in specOptions" :key="spec.id" :label="spec.name" :value="spec.id" />
             </el-select>
           </el-col>
-          <el-col :xs="24" :sm="10" :md="14" class="button-group">
-            <el-button @click="resetFilters">重置</el-button>
-            <div class="flex-grow" v-if="!isMobile"></div>
-            <el-button type="primary" @click="addAuth">
-              添加授权
-            </el-button>
+          <el-col :xs="24" :sm="6" :md="3" class="mb-10">
+            <el-select v-model="statusFilter" placeholder="状态" clearable @change="handleSearch" style="width: 100%" size="default">
+              <el-option label="已授权" :value="1" />
+              <el-option label="已禁用" :value="0" />
+            </el-select>
+          </el-col>
+          <el-col :xs="12" :sm="6" :md="3" class="mb-10">
+            <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
+            <el-button :icon="Refresh" @click="resetFilters">重置</el-button>
           </el-col>
         </el-row>
       </div>
@@ -166,6 +167,7 @@ const isMobile = useIsMobile()
 const authList = ref([])
 const searchQuery = ref('')
 const statusFilter = ref('')
+const specFilter = ref(null)
 const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
@@ -226,6 +228,10 @@ const loadAuthList = async () => {
       params.status = statusFilter.value
     }
 
+    if (specFilter.value) {
+      params.specId = specFilter.value
+    }
+
     const response = await api.admin.getAuthorizationList(params)
     if (response && response.data) {
       let records = response.data.records || []
@@ -268,6 +274,7 @@ const handleSearch = () => {
 const resetFilters = () => {
   searchQuery.value = ''
   statusFilter.value = ''
+  specFilter.value = null
   currentPage.value = 1
   loadAuthList()
 }

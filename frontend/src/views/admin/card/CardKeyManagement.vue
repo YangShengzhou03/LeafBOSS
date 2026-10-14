@@ -15,14 +15,14 @@
             </el-input>
           </el-col>
           <el-col :xs="24" :sm="6" :md="3" class="mb-10">
-            <el-select v-model="specificationFilter" placeholder="商品规格" clearable @change="handleSearch"
-              style="width: 100%" size="default">
+            <el-select v-model="specificationFilter" placeholder="商品规格" clearable
+              style="width: 100%" size="default" @change="handleSearch">
               <el-option v-for="spec in specs" :key="spec.id" :label="spec.name" :value="spec.id" />
             </el-select>
           </el-col>
           <el-col :xs="24" :sm="6" :md="3" class="mb-10">
-            <el-select v-model="statusFilter" placeholder="卡密状态" clearable @change="handleSearch"
-              style="width: 100%" size="default">
+            <el-select v-model="statusFilter" placeholder="卡密状态" clearable
+              style="width: 100%" size="default" @change="handleSearch">
               <el-option label="全部" :value="null" />
               <el-option label="未使用" value="未使用" />
               <el-option label="已使用" value="已使用" />
@@ -30,11 +30,14 @@
             </el-select>
           </el-col>
           <el-col :xs="24" :sm="6" :md="3" class="mb-10" v-if="isAdmin">
-            <el-select v-model="agentFilter" placeholder="代理商" clearable filterable @change="handleSearch"
-              style="width: 100%" size="default">
+            <el-select v-model="agentFilter" placeholder="代理商" clearable filterable
+              style="width: 100%" size="default" @change="handleSearch">
               <el-option label="全部" :value="null" />
               <el-option v-for="agent in agents" :key="agent.id" :label="agent.username" :value="agent.id" />
             </el-select>
+          </el-col>
+          <el-col :xs="12" :sm="6" :md="3" class="mb-10">
+            <el-button @click="resetFilters">重置</el-button>
           </el-col>
         </el-row>
       </div>
@@ -197,6 +200,15 @@ const loadCardKeys = async () => {
 }
 
 const handleSearch = () => {
+  currentPage.value = 1
+  loadCardKeys()
+}
+
+const resetFilters = () => {
+  searchQuery.value = ''
+  specificationFilter.value = ''
+  statusFilter.value = ''
+  agentFilter.value = null
   currentPage.value = 1
   loadCardKeys()
 }

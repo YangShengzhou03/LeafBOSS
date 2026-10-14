@@ -13,5 +13,7 @@ public interface UserProductService extends IService<UserProduct> {
 
     IPage<UserProductDTO> getUserProductListWithDetails(Page<UserProduct> pageParam, String keyword, Integer status, String userId);
 
+    IPage<UserProductDTO> getUserProductListWithDetails(Page<UserProduct> pageParam, String keyword, Integer status, String userId, Integer specId);
+
     UserProduct findByCardKey(String cardKey);
 }

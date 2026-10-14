@@ -32,9 +32,10 @@ public class UserProductController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) Integer status) {
+            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) Integer specId) {
         Page<UserProduct> pageParam = new Page<>(page, size);
-        return Result.success(userProductService.getUserProductListWithDetails(pageParam, keyword, status));
+        return Result.success(userProductService.getUserProductListWithDetails(pageParam, keyword, status, null, specId));
     }
 
     @GetMapping("/user/me")

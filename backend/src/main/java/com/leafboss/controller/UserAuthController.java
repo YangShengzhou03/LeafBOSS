@@ -54,7 +54,7 @@ public class UserAuthController {
             return Result.error("密码不能为空");
         }
 
-        User user = userService.findByEmail(email);
+        User user = userService.findByEmail(email.trim().toLowerCase());
         if (user != null) {
             // 拒绝管理员通过用户接口登录
             if ("admin".equals(user.getRole())) {
@@ -127,7 +127,7 @@ public class UserAuthController {
             user.setUsername(username.trim());
         }
         if (email != null && !email.trim().isEmpty()) {
-            String newEmail = email.trim();
+            String newEmail = email.trim().toLowerCase();
             // 邮箱未变更时跳过验证
             if (!newEmail.equals(user.getEmail())) {
                 String verificationCode = profile.get("verificationCode");
@@ -167,9 +167,10 @@ public class UserAuthController {
         if (email == null || email.trim().isEmpty()) {
             return Result.error("邮箱不能为空");
         }
+        email = email.trim().toLowerCase();
 
-        String code = verificationCodeService.generateCode(email.trim());
-        boolean sent = emailService.sendVerificationCode(email.trim(), code, "邮箱变更验证");
+        String code = verificationCodeService.generateCode(email);
+        boolean sent = emailService.sendVerificationCode(email, code, "邮箱变更验证");
         if (!sent) {
             log.warn("[邮箱变更验证] SMTP 发送失败，验证码降级输出 - 邮箱: {} 验证码: {}", email.trim(), code);
         }
@@ -185,9 +186,10 @@ public class UserAuthController {
         if (email == null || email.trim().isEmpty()) {
             return Result.error("邮箱不能为空");
         }
+        email = email.trim().toLowerCase();
 
-        String code = verificationCodeService.generateCode(email.trim());
-        boolean sent = emailService.sendVerificationCode(email.trim(), code, "用户注册验证");
+        String code = verificationCodeService.generateCode(email);
+        boolean sent = emailService.sendVerificationCode(email, code, "用户注册验证");
         if (!sent) {
             log.warn("[用户注册验证] SMTP 发送失败，验证码降级输出 - 邮箱: {} 验证码: {}", email.trim(), code);
         }
@@ -203,6 +205,7 @@ public class UserAuthController {
         if (email == null || email.trim().isEmpty()) {
             return Result.error("邮箱不能为空");
         }
+        email = email.trim().toLowerCase();
 
         User user = userService.findByEmail(email);
         if (user == null) {
@@ -225,6 +228,10 @@ public class UserAuthController {
         String email = resetRequest.get("email");
         String verificationCode = resetRequest.get("verificationCode");
         String newPassword = resetRequest.get("newPassword");
+
+        if (email != null) {
+            email = email.trim().toLowerCase();
+        }
 
         if (verificationCode == null || verificationCode.trim().isEmpty()) {
             return Result.error("请输入验证码");
@@ -258,6 +265,8 @@ public class UserAuthController {
         if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
             return Result.error("邮箱不能为空");
         }
+        // 邮箱统一小写存储，避免大小写重复注册
+        user.setEmail(user.getEmail().trim().toLowerCase());
         if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
             return Result.error("密码不能为空");
         }
