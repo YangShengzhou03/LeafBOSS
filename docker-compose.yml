@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: leafboss-mysql
+    restart: always
+    networks:
+      - leafboss-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+      MYSQL_DATABASE: leaf_boss
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  backend:
+    image: crpi-kczczesrmgxok6ke.cn-hangzhou.personal.cr.aliyuncs.com/leafboss/backend:backend-v1
+    container_name: leafboss-backend
+    restart: always
+    networks:
+      - leafboss-network
+    depends_on:
+      - mysql
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/leaf_boss?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+      APP_JWT_SECRET: ${APP_JWT_SECRET:?APP_JWT_SECRET is required}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+
+  frontend:
+    image: crpi-kczczesrmgxok6ke.cn-hangzhou.personal.cr.aliyuncs.com/leafboss/frontend:frontend-v1
+    container_name: leafboss-frontend
+    restart: always
+    networks:
+      - leafboss-network
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+networks:
+  leafboss-network:
+
+volumes:
+  mysql-data:
